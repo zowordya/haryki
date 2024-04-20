@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список дел</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Список дел</h1>
+
+    <div id="form-container">
+        <input type="text" id="new-task" placeholder="Введите новую задачу">
+        <button id="add-task">Добавить</button>
+    </div>
+
+    <ul id="task-list"></ul>
+
+    <script src="script.js"></script>
+</body>
+<style>
+body {
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#new-task {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#add-task {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#task-list {
+    list-style: none;
+    padding: 0;
+}
+
+#task-list li {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#task-list li input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+#task-list li label {
+    cursor: pointer;
+}
+
+#task-list li .delete-btn {
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+</style>
+<script>
+const taskList = document.getElementById('task-list');
+const newTaskInput = document.getElementById('new-task');
+const addTaskButton = document.getElementById('add-task');
+
+addTaskButton.addEventListener('click', addTask);
+
+function addTask() {
+    const taskText = newTaskInput.value.trim();
+
+    if (taskText) {
+        const listItem = document.createElement('li');
+        const checkbox = document.createElement('input');
+        const label = document.createElement('label');
+        const deleteButton = document.createElement('button');
+
+        checkbox.type = 'checkbox';
+        label.textContent = taskText;
+        deleteButton.textContent = 'X';
+
+        checkbox.addEventListener('change', toggleTaskCompletion);
+        deleteButton.addEventListener('click', deleteTask);
+
+        listItem.appendChild(checkbox);
+        listItem.appendChild(label);
+        listItem.appendChild(deleteButton);
+
+        taskList.appendChild(listItem);
+        newTaskInput.value = '';
+    }
+}
+
+function toggleTaskCompletion(event) {
+    const taskListItem = event.target.parentNode;
+    taskListItem.classList.toggle('completed');
+}
+
+function deleteTask(event) {
+    const taskListItem = event.target.parentNode;
+    taskList.removeChild(taskListItem);
+}
+</script>
+</html>
